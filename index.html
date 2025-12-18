@@ -3,310 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 ゆるっと交流会 - 雑談と居場所のための多機能server</title>
-    <meta name="description" content="Discordサーバーを「誰かの居場所」にする多機能Bot。Gemini AI、音楽、会話促進ツールで、自然な交流をデザインします。">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>ゆるっと交流会 | 公式サイト 🐾</title>
     <style>
-        /* 🎨 全体設定とリセット */
         :root {
-            --main-warm: #FFB3A7; /* メインカラー (柔らかいピンク/赤) */
-            --accent-green: #78C0A8; /* アクセント (落ち着いた緑) */
-            --light-bg: #FFF8F6; /* 非常に明るい背景 */
-            --text-dark: #4A4A4A;
-            --card-bg: white;
-            --radius: 20px;
+            --bg-creme: #fffaf0;
+            --main-purple: #7d83ff;
+            --soft-orange: #ffb347;
+            --night-blue: #2c3e50;
+            --accent-pink: #ff9a9e;
+            --card-blue: #f0f4ff;
         }
 
         body {
-            font-family: 'Noto Sans JP', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            line-height: 1.7;
+            font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+            background-color: var(--bg-creme);
+            color: #5d5d5d;
+            line-height: 1.8;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><text y="20" font-size="20">🐾</text></svg>'), auto;
+        }
+
+        .bg-decoration {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.3;
+            transition: transform 0.4s ease-out;
+        }
+
+        header {
+            padding: 40px 20px 20px 20px;
             text-align: center;
         }
-
-        /* ---------------------------------- */
-        /* ☕ ヘッダー (ヒーローセクション) */
-        /* ---------------------------------- */
-        .hero-header {
-            background: linear-gradient(135deg, var(--main-warm), #FFD7C0); /* グラデーション */
-            color: white;
-            padding: 100px 20px 80px;
-            text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); /* 少し斜めのカット */
-        }
-
-        .hero-header h1 {
-            font-size: 3.8em;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .hero-header h2 {
-            font-size: 1.8em;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .invite-button {
-            display: inline-block;
-            background-color: var(--accent-green);
-            color: white;
-            padding: 18px 45px;
-            text-decoration: none;
-            border-radius: 50px; /* 薬型 */
-            font-size: 1.4em;
+        .logo {
+            font-size: 1.5rem;
             font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            border: none;
+            color: var(--accent-pink);
+            background: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: inline-block;
         }
 
-        .invite-button:hover {
-            background-color: #63a088;
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-        }
-        
-        /* ---------------------------------- */
-        /* 🌟 コンテンツセクション */
-        /* ---------------------------------- */
-        .container {
-            padding: 60px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .hero { padding: 60px 20px; text-align: center; }
+        .hero h1 { font-size: 2.2rem; color: var(--night-blue); margin-bottom: 20px; }
 
-        .section-title {
-            color: var(--main-warm);
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            font-weight: 700;
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--main-purple), #a5a9ff);
+            color: white;
+            padding: 22px 60px;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(125, 131, 255, 0.3);
+            animation: float-btn 3s ease-in-out infinite;
+            transition: 0.3s;
+        }
+        @keyframes float-btn {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        .btn-main:hover { transform: scale(1.1); box-shadow: 0 15px 30px rgba(125, 131, 255, 0.4); }
+
+        .container { max-width: 750px; margin: 0 auto; padding: 0 20px; }
+
+        .section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 40px;
+            margin-bottom: 50px;
+            border: 2px solid white;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 1s ease-out;
+            position: relative;
+        }
+        .section.show { opacity: 1; transform: translateY(0); }
+
+        .intro-box {
+            background: var(--card-blue);
+            padding: 25px;
+            border-radius: 30px;
             text-align: center;
         }
-        .subtitle {
-            color: #777;
-            font-size: 1.2em;
-            margin-bottom: 50px;
-            font-weight: 300;
+
+        .bot-guide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        @media (max-width: 500px) {
+            .bot-guide { flex-direction: column; }
+            .fukidashi::before { display: none; }
+        }
+        .bot-icon {
+            font-size: 3rem;
+            background: white;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            animation: sway 4s ease-in-out infinite;
+        }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        .fukidashi {
+            position: relative;
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 300px;
+        }
+        .fukidashi::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            margin-top: -10px;
+            border-top: 10px solid transparent;
+            border-right: 15px solid #fff;
+            border-bottom: 10px solid transparent;
         }
 
-        /* ---------------------------------- */
-        /* 💬 雑談サポート機能グリッド */
-        /* ---------------------------------- */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+        @keyframes float-out {
+            to { transform: translateY(-80px) scale(1.5); opacity: 0; }
         }
 
-        .feature-card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: var(--radius);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: left;
-            border-bottom: 5px solid var(--accent-green);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .feature-card .icon-header {
-            font-size: 1.8em;
-            color: var(--accent-green);
-            margin-bottom: 10px;
-            float: left;
-            margin-right: 15px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3em;
-            color: var(--text-dark);
-            margin-top: 5px;
-            margin-bottom: 10px;
-            overflow: hidden; /* float解除 */
-        }
-        
-        .feature-card p {
-            font-size: 0.95em;
-            color: #777;
-            clear: both; /* float解除 */
-        }
-
-        /* ---------------------------------- */
-        /* 🎶 音楽セクション (別デザイン) */
-        /* ---------------------------------- */
-        .music-section {
-            background-color: #fff;
-            padding: 50px;
-            border-radius: var(--radius);
-            margin-top: 60px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .music-section h3 {
-            color: #4A90E2; /* 音楽セクション用の青 */
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        .music-section .music-icon {
-            font-size: 3em;
-            color: #4A90E2;
-            margin-bottom: 20px;
-        }
-
-        /* ---------------------------------- */
-        /* 🛠️ 管理セクション */
-        /* ---------------------------------- */
-        .admin-section {
-            padding-top: 60px;
-        }
-
-        .admin-section h3 {
-            color: var(--text-dark);
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-        
-        .admin-section .command-tag {
-            background-color: #f0f0f0;
-            color: var(--text-dark);
-            border: 1px solid #ddd;
-        }
-
-
-        /* ---------------------------------- */
-        /* 📝 コマンドタグ */
-        /* ---------------------------------- */
-        .command-tag {
-            display: inline-block;
-            background-color: #fce7e5;
-            color: var(--main-warm);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 1em;
-            margin: 5px;
-            font-weight: 500;
-            font-family: monospace;
-        }
-        
-        /* ---------------------------------- */
-        /* 📝 フッター */
-        /* ---------------------------------- */
-        .footer {
-            background-color: #f0f0f0;
-            color: #777;
-            padding: 30px;
-            margin-top: 80px;
-            font-size: 0.9em;
-        }
-
-        /* ---------------------------------- */
-        /* 📱 モバイル対応 */
-        /* ---------------------------------- */
-        @media (max-width: 600px) {
-            .hero-header h1 {
-                font-size: 2.5em;
-            }
-            .hero-header h2 {
-                font-size: 1.2em;
-            }
-            .section-title {
-                font-size: 2em;
-            }
-        }
+        footer { text-align: center; padding: 60px; color: #ccc; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <header class="hero-header">
-        <h1>🌟 ゆるっと交流会</h1>
-        <h2>Discordに「**ずっと居たくなる場所**」をデザインする、多機能で優しいBotです。</h2>
-        
-        <a href="https://discord.gg/SPvmMRTtUw" class="invite-button" target="_blank">
-            🎉 今すぐゆるっと交流に参加する
-        </a>
+    <div class="bg-decoration">
+        <div class="bubble" id="b1" style="width: 500px; height: 500px; background: #ffe0b2; top: -10%; left: -10%;"></div>
+        <div class="bubble" id="b2" style="width: 400px; height: 400px; background: #d1d4ff; bottom: 0%; right: -5%;"></div>
+        <div class="bubble" id="b3" style="width: 300px; height: 300px; background: #ffd1d1; top: 30%; right: 10%;"></div>
+    </div>
+
+    <header>
+        <div class="logo">☕ ゆるっと交流会</div>
     </header>
 
+    <section class="hero">
+        <h1>ずっと居たくなる場所</h1>
+        <p>Discordに「<b>ずっと居たくなる場所</b>」をデザインする、<br>多機能で優しいServerだよ🍀🧸</p>
+        <br>
+        <a href="https://discord.gg/SPvmMRTtUw" class="btn-main">✨ 入ってみる！ ✨</a>
+    </section>
+
     <div class="container">
-        <h2 class="section-title">✨ なぜ、ゆるっと交流会なのか？</h2>
-        <p class="subtitle">雑談、孤独、BGM... サーバー運営で困るすべてを、このBot一つで解決します。</p>
-
-        <div class="features-grid">
-            
-            <div class="feature-card">
-                <span class="icon-header"><i class="fas fa-comment-dots"></i></span>
-                <h3>会話が途切れないデザイン</h3>
-                <p>誰もが答えやすい「ゆるいお題」を毎日投稿。新しい話題を探す手間はありません。「ゆるっと交流会」が優しくみんなの雑談をサポートします。</p>
+        <div class="section">
+            <h2 style="text-align: center; color: var(--soft-orange);">🌟 ゆるっと交流所へようこそ 🌟</h2>
+            <p style="text-align: center;">人との会話を大切にする、ぽかぽか温かい居場所です🌈</p>
+            <div class="intro-box">
+                🎈 雑談お題がいっぱい！<br>
+                🤖 Geminiくんとお喋り！<br>
+                🎵 高音質BGMでリラックス！
             </div>
             
-            <div class="feature-card">
-                <span class="icon-header"><i class="fas fa-brain"></i></span>
-                <h3>Gemini AIが会話に混ざる</h3>
-                <p>最新のGemini AIを搭載。ただのBotではなく、「ちょっと賢くて、おしゃべりが好きな新しい仲間」として、サーバーの交流にそっと参加します。</p>
-            </div>
-            
-            <div class="feature-card">
-                <span class="icon-header"><i class="fas fa-coffee"></i></span>
-                <h3>「居心地の良さ」の演出</h3>
-                <p>みんなが挨拶しやすくなるコマンドや、サーバーに入ったばかりの人も安心できる認証パネルなど、「居場所」としての安心感を高める機能が満載です。</p>
-            </div>
-            
-        </div>
-        
-        <div class="music-section">
-            <div class="music-icon"><i class="fas fa-headphones-alt"></i></div>
-            <h3>🎧 作りの差が出る「安定した音楽再生」</h3>
-            <p style="max-width: 700px; margin: 15px auto;">ストリーミングエラーを徹底的に対策。途切れにくい高音質なBGMを提供します。ボタン付きの専用パネルで、誰でも簡単に操作できるのが魅力です。</p>
-            <p><strong>コマンド:</strong> <span class="command-tag">/music play</span> <span class="command-tag">/music panel</span></p>
-        </div>
-
-        <div class="admin-section">
-            <h2 class="section-title" style="font-size: 2.2em;"><i class="fas fa-tools"></i> 管理者向けツール</h2>
-            <p class="subtitle">交流に集中できるように、面倒な管理は「ゆるっと交流会」が担当します。</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="icon-header"><i class="fas fa-lock"></i></span>
-                    <h3>認証パネル (Bot対策)</h3>
-                    <p>簡単な計算問題付きの認証パネルで、スパムBotや荒らしアカウントの侵入を水際でブロックします。</p>
-                    <p><strong>コマンド:</strong> <span class="command-tag">/kanri ninsyoupanel</span></p>
-                </div>
-                <div class="feature-card">
-                    <span class="icon-header"><i class="fas fa-eraser"></i></span>
-                    <h3>チャンネルリセット (Nuke)</h3>
-                    <p>荒れてしまったチャンネルを瞬時に削除し、同じ設定で再生成。クリーンな環境で再スタートできます。</p>
-                    <p><strong>コマンド:</strong> <span class="command-tag">/kanri nuke</span></p>
+            <div class="bot-guide">
+                <div class="bot-icon">🤖</div>
+                <div class="fukidashi">
+                    ボクも待ってるよ！<br>
+                    わからないことがあったら、いつでも話しかけてね✨
                 </div>
             </div>
+
+            <p style="text-align: center; margin-top: 30px; font-size: 0.9rem;">
+                無理に喋らなくてOK。あなたのペースで過ごしてね。🍵
+            </p>
         </div>
 
-        
-        <div class="command-guide" style="margin-top: 80px;">
-            <h3>📝 いますぐ使える雑談コマンド</h3>
-            <p>Bot機能は全てスラッシュコマンド（`/`）から。使い方は説明不要なほどシンプルです。</p>
-            <div>
-                <span class="command-tag">/topic</span>
-                <span class="command-tag">/say_hi_to</span>
-                <span class="command-tag">/music play</span>
-                <span class="command-tag">/kanri set_gemini_channel</span>
-            </div>
+        <div style="text-align: center; margin-bottom: 80px;">
+            <p style="color: #bbb; letter-spacing: 5px;">🐾 🐾 🐾</p>
+            <p style="font-size: 0.9rem;">詳しいルールはサーバーの中で確認してね！📖</p>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>Copyright © 2025 ゆるっと交流会 Project. 誰もが安心して話せる空間を提供します。</p>
-        <p style="margin-top: 10px;">技術協力: Google Gemini API / Discord.py</p>
+    <footer>
+        &copy; 2025 ゆるっと交流会 | ぷかぷか運営中 💤
     </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.getElementById('b1').style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+            document.getElementById('b2').style.transform = `translate(${x * -50}px, ${y * -50}px)`;
+            document.getElementById('b3').style.transform = `translate(${x * 30}px, ${y * -30}px)`;
+        });
+
+        document.addEventListener('click', (e) => {
+            const star = document.createElement('span');
+            star.innerText = '✨';
+            star.style.position = 'fixed';
+            star.style.left = e.clientX + 'px';
+            star.style.top = e.clientY + 'px';
+            star.style.pointerEvents = 'none';
+            star.style.zIndex = '9999';
+            star.style.fontSize = '24px';
+            star.style.animation = 'float-out 1s forwards';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 1000);
+        });
+    </script>
 
 </body>
 </html>
